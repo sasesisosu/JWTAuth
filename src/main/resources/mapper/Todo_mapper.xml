@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jwtauth.assignment.dao.TodoMapper">
+    <resultMap id="todoResultMap" type="com.jwtauth.assignment.model.Todo">
+        <result property="userIdx" column="user_idx"/>
+        <result property="title" column="title"/>
+        <result property="description" column="description"/>
+        <result property="completed" column="completed"/>
+    </resultMap>
+
+    <insert id="uploadTodo" parameterType="com.jwtauth.assignment.model.Todo">
+        INSERT INTO todos
+        (user_idx,
+         title,
+         description,
+         completed)
+        VALUES
+            (#{userIdx},
+             #{title},
+             #{description},
+             #{completed})
+    </insert>
+
+    <select id="getTodoList" resultType="com.jwtauth.assignment.model.Todo" parameterType="Long">
+        SELECT
+            T.user_idx AS userIdx,
+            T.title,
+            T.description,
+            T.completed,
+            T.todos_idx AS todosIdx,
+            U.user_id AS userId
+        FROM
+            todos T
+        INNER JOIN users U ON T.user_idx = U.user_idx
+        WHERE
+            T.user_idx = #{userIdx}
+    </select>
+
+    <select id="getIdTodoList" resultType="com.jwtauth.assignment.model.Todo" parameterType="Long">
+        SELECT
+            T.title,
+            T.description,
+            T.completed,
+            U.user_id AS userId
+        FROM
+            todos T
+                INNER JOIN users U ON T.user_idx = U.user_idx
+        WHERE
+            T.todos_idx = #{todosIdx}
+    </select>
+
+
+    <update id="todoModifying" parameterType="com.jwtauth.assignment.model.Todo">
+        UPDATE todos
+        SET
+            title = #{title},
+            description = #{description},
+            completed = #{completed}
+        WHERE todos_idx = #{todosIdx}
+    </update>
+
+    <delete id="todoDelete" parameterType="Long">
+        DELETE FROM todos
+        WHERE todos_idx = #{todosIdx}
+    </delete>
+
+    <select id="getTodoSearch" resultType="com.jwtauth.assignment.model.Todo" parameterType="String">
+        SELECT
+            T.user_idx AS userIdx,
+            T.title,
+            T.description,
+            T.completed,
+            T.todos_idx AS todosIdx,
+            U.user_id AS userId
+        FROM
+            todos T
+                INNER JOIN users U ON T.user_idx = U.user_idx
+        WHERE
+            T.title LIKE CONCAT('%', #{title}, '%')
+    </select>
+</mapper>

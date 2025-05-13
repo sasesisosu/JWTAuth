@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:sqlite:./todo-app.db
+    driver-class-name: org.sqlite.JDBC
+    username: 'lyg'
+    password: '2626'
+
+
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.aladinassignment.assignment.model
+
+
+jwt:
+  secretKey: StartedAssignmentApplicationin2.427seconds(processrunningfor2.855)
