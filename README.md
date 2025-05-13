@@ -386,7 +386,7 @@
 # todos
 - API명           : TODO 검색 API
 - Method          : GET
-- URL             : http://localhost:8080/api/todos/search?title=일번
+- URL             : http://localhost:8080/api/todos/search?title=이번
 - Params          : title(String, required)
 - Headers         :
  
