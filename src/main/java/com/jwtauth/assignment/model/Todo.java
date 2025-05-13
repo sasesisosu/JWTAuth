@@ -28,17 +28,22 @@ public class Todo {
     private String userId;
 
     /**
-     * 할 일 제목
+     * 사용자 이메일
+     */
+    private String email;
+
+    /**
+     * TODO 제목
      */
     private String title;
 
     /**
-     * 할 일 내용
+     * TODO 내용
      */
     private String description;
 
     /**
-     * 할 일 완료 여부
+     * TODO 완료 여부
      */
     private Boolean completed;
 

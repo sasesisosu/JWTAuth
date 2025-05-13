@@ -28,6 +28,9 @@ public class UserController {
     @Autowired
     private JWTUtil jwtUtil;
 
+    /**
+     * 회원가입
+     */
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@RequestBody User user) {
 
@@ -41,6 +44,9 @@ public class UserController {
         }
     }
 
+    /**
+     * 로그인
+     */
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody User user, HttpServletResponse httpResponse)  {
 
@@ -59,6 +65,9 @@ public class UserController {
         }
     }
 
+    /**
+     * 사용자 조회
+     */
     @GetMapping("/me")
     public ResponseEntity<Map<String, String>> getUserInfo(HttpServletRequest httpRequest) {
         try {
@@ -71,6 +80,7 @@ public class UserController {
             Map<String, String> response = new HashMap<>();
             response.put("userId", userId);
             response.put("name", userInfo.getName());
+            response.put("email", userInfo.getEmail());
 
             return ResponseEntity.ok(response);
         } catch (NotFoundException exception) {
@@ -78,6 +88,9 @@ public class UserController {
         }
     }
 
+    /**
+     * 사용자 수정
+     */
     @PutMapping("/me")
     public ResponseEntity<String> userModifying(@RequestBody User user) {
         try {
@@ -89,6 +102,9 @@ public class UserController {
         }
     }
 
+    /**
+     * 사용자 삭제
+     */
     @DeleteMapping("/me")
     public ResponseEntity<String> userDelete(@RequestBody User user) {
         try {
@@ -99,4 +115,5 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
         }
     }
+
 }

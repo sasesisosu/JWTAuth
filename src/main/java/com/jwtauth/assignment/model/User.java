@@ -25,12 +25,23 @@ public class User {
      */
     private String name;
 
+
+    /**
+     * 사용자 이메일
+     */
+    private String email;
+
     private String role;
 
-    public User(String userId, String password, String name, String role) {
+    public User(String userId, String password, String name, String email, String role) {
         this.userId = userId;
         this.password = password;
         this.name = name;
+        this.email = email;
         this.role = role;
+    }
+
+    public User() {
+
     }
 }

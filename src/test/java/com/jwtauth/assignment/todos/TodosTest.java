@@ -47,7 +47,7 @@ public class TodosTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        testUser = new User("TEST_ID", "TEST_PW", "TEST_NAME", "ROLE_USER");
+        testUser = new User("TEST_ID", "TEST_PW", "TEST_NAME", "TEST_EMAIL", "ROLE_USER");
         mockMvc.perform(post("/api/users/signup")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testUser)))

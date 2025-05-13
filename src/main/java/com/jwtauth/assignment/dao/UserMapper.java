@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Mapper;
 public interface UserMapper {
     void signup(User user);
 
+    void naverSignup(User user);
+
     boolean existsById(String id);
 
     User findByUserId(String userId);

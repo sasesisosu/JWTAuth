@@ -10,11 +10,24 @@
         INSERT INTO users
              (user_id,
              password,
-             name)
+             name,
+             email)
         VALUES
             (#{userId},
              #{password},
-             #{name})
+             #{name},
+             #{email})
+    </insert>
+
+    <insert id="naverSignup" parameterType="com.jwtauth.assignment.model.User">
+        INSERT INTO users
+        (user_id,
+         name,
+         email)
+        VALUES
+            (#{userId},
+             #{name},
+             #{email})
     </insert>
 
     <select id="existsById" resultType="boolean" parameterType="String">
@@ -32,7 +45,8 @@
         UPDATE users
         SET
             password = #{password},
-            name = #{name}
+            name = #{name},
+            email = #{email}
         WHERE user_id = #{userId}
     </update>
 

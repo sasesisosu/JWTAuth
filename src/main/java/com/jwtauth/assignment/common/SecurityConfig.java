@@ -1,5 +1,6 @@
 package com.jwtauth.assignment.common;
 
+import com.jwtauth.assignment.service.Impl.CustomOAuth2UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,9 +15,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private final CustomSuccessHandler customSuccessHandler;
+
+    private final CustomOAuth2UserService customOAuth2UserService;
+
     private final JWTUtil jwtUtil;
 
-    public SecurityConfig(JWTUtil jwtUtil) {
+    public SecurityConfig(CustomSuccessHandler customSuccessHandler, CustomOAuth2UserService customOAuth2UserService, JWTUtil jwtUtil) {
+        this.customSuccessHandler = customSuccessHandler;
+        this.customOAuth2UserService = customOAuth2UserService;
         this.jwtUtil = jwtUtil;
     }
 
@@ -26,8 +33,12 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .formLogin((auth) -> auth.disable())
                 .httpBasic((auth) -> auth.disable())
+                .oauth2Login((oauth2) -> oauth2
+                        .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
+                                .userService(customOAuth2UserService))
+                                .successHandler(customSuccessHandler))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/api/users/signup", "/api/users/login").permitAll()
+                        .requestMatchers("/", "/api/users/signup", "/api/users/login", "/login/oauth2/code/naver").permitAll()
                         .requestMatchers("/api/**").hasRole("USER")
                         .anyRequest().authenticated()
                 )

@@ -51,8 +51,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void login(User user, String jwtToken, HttpServletResponse httpResponse) throws NotFoundException {
-        httpResponse.addHeader("Authorization", "Bearer " + jwtToken);
-
         User userInfo = userMapper.findByUserId(user.getUserId());
         if(userInfo == null){
             throw new NotFoundException("존재하지 않는 아이디입니다.");
@@ -61,6 +59,7 @@ public class UserServiceImpl implements UserService {
         if(!passwordEncoder.matches(user.getPassword(), userInfo.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
+        httpResponse.addHeader("Authorization", "Bearer " + jwtToken);
     }
 
     @Override
@@ -97,4 +96,6 @@ public class UserServiceImpl implements UserService {
     public Long getUserIdx(String userId) {
         return userMapper.getUserIdx(userId);
     }
+
+
 }

@@ -1,10 +1,9 @@
 package com.jwtauth.assignment.users;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.jwtauth.assignment.model.User;
-import com.jwtauth.assignment.service.UserService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jwtauth.assignment.model.User;
+import com.jwtauth.assignment.service.UserService;
 import org.apache.ibatis.javassist.NotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,10 +16,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -36,7 +34,7 @@ public class UsersTest {
 
     @BeforeEach
     void setup() throws Exception {
-        testUser = new User("TEST_ID", "TEST_PW", "TEST_NAME", "ROLE_USER");
+        testUser = new User("TEST_ID", "TEST_PW", "TEST_NAME", "TEST_EMAIL", "ROLE_USER");
         mockMvc.perform(post("/api/users/signup")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testUser)))
@@ -62,7 +60,7 @@ public class UsersTest {
         String token = createToken();
 
         // 존재하지 않는 ID를 사용하여 User 객체 생성
-        User invalidUser = new User("INVALID_USER_ID", "newPassword", "newName", "ROLE_USER");
+        User invalidUser = new User("INVALID_USER_ID", "newPassword", "newName", "newMail", "ROLE_USER");
 
         mockMvc.perform(put("/api/users/me")
                         .header("Authorization", token)
@@ -75,7 +73,7 @@ public class UsersTest {
     @Test
     @Transactional
     void testSignup() throws Exception {
-        User newUser = new User("TEST_SIGN_ID", "TEST_PW", "TEST_NAME", "ROLE_USER");
+        User newUser = new User("TEST_SIGN_ID", "TEST_PW", "TEST_NAME", "TEST_EMAIL", "ROLE_USER");
 
         mockMvc.perform(post("/api/users/signup")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -107,7 +105,8 @@ public class UsersTest {
                         .header("Authorization", token))
                         .andExpect(status().isOk())
                         .andExpect(jsonPath("$.userId").value("TEST_ID"))
-                        .andExpect(jsonPath("$.name").value("TEST_NAME"));
+                        .andExpect(jsonPath("$.name").value("TEST_NAME"))
+                        .andExpect(jsonPath("$.email").value("TEST_EMAIL"));
     }
 
     private String createToken() throws Exception {

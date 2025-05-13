@@ -1,6 +1,8 @@
 package com.jwtauth.assignment.common;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -29,6 +31,7 @@ public class JWTUtil {
             return "N";
         }
     }
+
 
     public boolean isExpired(String token) {
         try {

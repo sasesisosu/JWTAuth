@@ -59,7 +59,7 @@ public class JWTFilter extends OncePerRequestFilter {
         }
 
         List<GrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
-        User user = new User(userId, "tempPw", "tempNm", "ROLE_USER");
+        User user = new User(userId, "tempPw", "tempNm", "tempEmail", "ROLE_USER");
 
 
         Authentication auth = new UsernamePasswordAuthenticationToken(user, null, authorities);

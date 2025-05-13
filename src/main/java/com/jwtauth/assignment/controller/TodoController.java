@@ -32,6 +32,9 @@ public class TodoController {
     @Autowired
     private final JWTUtil jwtUtil;
 
+    /**
+     * TODO 업로드
+     */
     @PostMapping("")
     public ResponseEntity<String> UploadTodo(@RequestBody Todo todo, HttpServletRequest httpRequest) {
         try {
@@ -49,6 +52,9 @@ public class TodoController {
         }
     }
 
+    /**
+     * TODO 조회
+     */
     @GetMapping("")
     public ResponseEntity<?> getTodoList(HttpServletRequest httpRequest) {
         try {
@@ -67,6 +73,9 @@ public class TodoController {
         }
     }
 
+    /**
+     * TODO ID 조회
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, String>> getIdTodoList(@PathVariable("id") Long id) {
         try {
@@ -74,6 +83,7 @@ public class TodoController {
 
             Map<String, String> response = new HashMap<>();
             response.put("userId", todoList.getUserId());
+            response.put("email", todoList.getEmail());
             response.put("title", todoList.getTitle());
             response.put("description", todoList.getDescription());
             response.put("completed", String.valueOf(todoList.getCompleted()));
@@ -83,6 +93,9 @@ public class TodoController {
         }
     }
 
+    /**
+     * TODO 수정
+     */
     @PutMapping("/{id}")
     public ResponseEntity<String> todoModifying(@PathVariable("id") Long id, @RequestBody Todo todo) {
         try {
@@ -93,6 +106,9 @@ public class TodoController {
         }
     }
 
+    /**
+     * TODO 삭제
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<String> todoDelete(@PathVariable("id") Long id) {
         try {
@@ -104,6 +120,9 @@ public class TodoController {
         }
     }
 
+    /**
+     * TODO 검색
+     */
     @GetMapping("/search")
     public ResponseEntity<?> getTodoSearch(@RequestParam String title) {
         try {

@@ -2,8 +2,9 @@
 CREATE TABLE IF NOT EXISTS users (
                                      user_idx INTEGER PRIMARY KEY AUTOINCREMENT,
                                      user_id TEXT NOT NULL UNIQUE,
-                                     password TEXT NOT NULL,
-                                     name TEXT NOT NULL
+                                     password TEXT,
+                                     name TEXT,
+                                     email TEXT
 );
 
 CREATE TABLE IF NOT EXISTS todos (

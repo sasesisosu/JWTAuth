@@ -31,7 +31,8 @@
             T.description,
             T.completed,
             T.todos_idx AS todosIdx,
-            U.user_id AS userId
+            U.user_id AS userId,
+            U.email
         FROM
             todos T
         INNER JOIN users U ON T.user_idx = U.user_idx
@@ -44,7 +45,8 @@
             T.title,
             T.description,
             T.completed,
-            U.user_id AS userId
+            U.user_id AS userId,
+            U.email
         FROM
             todos T
                 INNER JOIN users U ON T.user_idx = U.user_idx
@@ -74,7 +76,8 @@
             T.description,
             T.completed,
             T.todos_idx AS todosIdx,
-            U.user_id AS userId
+            U.user_id AS userId,
+            U.email
         FROM
             todos T
                 INNER JOIN users U ON T.user_idx = U.user_idx
